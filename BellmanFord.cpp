@@ -9,10 +9,11 @@ edge es[MAX_E]; //辺
 int d[MAX_V]; //最短距離
 int V,E; //頂点数、辺数
 
-//最短距離を求める
-void shortest_path(int s){
+//最短距離を求める+sから負の閉路に到達するか?
+int shortest_path(int s){
   fill(d,d+V,INF);
   d[s]=0;
+  int cnt=0;
   while(1){
     bool update=false;
     for(int i=0;i<E;i++){
@@ -23,7 +24,10 @@ void shortest_path(int s){
       }
     }
     if(!update)break;
+    cnt++;
+    if(cnt==V)return 0;//負の閉路に到達する
   }
+  return 1;//負の閉路に到達しない
 }
 
 //閉路があるか?
