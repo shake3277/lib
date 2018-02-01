@@ -3,13 +3,13 @@ using namespace std;
 #define MAX_N 100000
 
 int par[MAX_N]; //親
-int rank[MAX_N]; //木の深さ
+int ran[MAX_N]; //木の深さ
 
 //初期化
 void init(int n){
   for(int i=0;i<n;i++){
     par[i]=i;
-    rank[i]=0;
+    ran[i]=0;
   }
 }
 
@@ -23,10 +23,10 @@ int find(int x){
 void unite(int x,int y){
   x=find(x);
   y=find(y);
-  if(rank[x]<rank[y])par[x]=y;
+  if(ran[x]<ran[y])par[x]=y;
   else {
     par[y]=x;
-    if(rank[x]==rank[y])rank[x]++;
+    if(ran[x]==ran[y])ran[x]++;
 
   }
 }
