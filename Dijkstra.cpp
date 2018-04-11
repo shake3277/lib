@@ -11,7 +11,7 @@ int d[MAX_V]; //最短コスト(経路が無い場合はINF)
 
 void dijkstra(int s){
   priority_queue<P,vector<P>,greater<P> > que;
-  fill(d,d+V,INF);
+  fill(d,d+MAX_V,INF);
   d[s]=0;
   que.push(P(0,s));
   while(!que.empty()){
