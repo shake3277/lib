@@ -11,6 +11,7 @@ int depth[N];
 void dfs(int x,int d){
   depth[x]=d;
   for(int i=0;i<g[x].size();i++){
+    if(g[x][i]==par[x][0])continue;
     par[g[x][i]][0]=x;
     dfs(g[x][i],d+1);
   }
