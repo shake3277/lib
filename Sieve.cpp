@@ -7,7 +7,7 @@ bool is_prime[MAX_N+1];
 //n以下の素数の数を返す
 int sieve(int n){
   int p=0;
-  for(int i=0;i<=n;i++)is_prime=true;
+  for(int i=0;i<=n;i++)is_prime[i]=true;
   is_prime[0]=is_prime[1]=false;
   for(int i=2;i<=n;i++){
     if(is_prime[i]){
