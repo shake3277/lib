@@ -1,0 +1,101 @@
+;; flymake
+
+(require 'flymake)
+(defun flymake-cc-init ()
+  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+         (local-file  (file-relative-name
+                       temp-file
+                       (file-name-directory buffer-file-name))))
+    (list "g++" (list "-std=c++11" "-Wall" "-Wextra" "-fsyntax-only" local-file))))
+
+(push '("\\.cpp$" flymake-cc-init) flymake-allowed-file-name-masks)
+
+(add-hook 'c++-mode-hook
+          '(lambda ()
+             (flymake-mode t)))
+
+;; flymake end
+
+;; font
+
+(when (and (>= emacs-major-version 24) (not (null window-system)))
+  (let* ((font-family "Ricty")
+         (font-size 15)
+         (font-height (* font-size 10))
+         (jp-font-family "ヒラギノ角ゴ ProN"))
+    (set-face-attribute 'default nil :family font-family :height font-height)
+    (let ((name (frame-parameter nil 'font))
+          (jp-font-spec (font-spec :family jp-font-family))
+          (jp-characters '(katakana-jisx0201
+                           cp932-2-byte
+                           japanese-jisx0212
+                           japanese-jisx0213-2
+                           japanese-jisx0213.2004-1))
+          (font-spec (font-spec :family font-family))
+          (characters '((?\u00A0 . ?\u00FF)    ; Latin-1
+                        (?\u0100 . ?\u017F)    ; Latin Extended-A
+                        (?\u0180 . ?\u024F)    ; Latin Extended-B
+                        (?\u0250 . ?\u02AF)    ; IPA Extensions
+                        (?\u0370 . ?\u03FF)))) ; Greek and Coptic
+      (dolist (jp-character jp-characters)
+        (set-fontset-font name jp-character jp-font-spec))
+      (dolist (character characters)
+        (set-fontset-font name character font-spec))
+      (add-to-list 'face-font-rescale-alist (cons jp-font-family 1.2)))))
+
+;; font end
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
+ '(custom-enabled-themes (quote (deeper-blue))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+;;font end
+
+;; スタートアップメッセージを表示させない
+(setq inhibit-startup-message 1)
+
+;; ターミナルで起動したときにメニューを表示しない
+(if (eq window-system 'x)
+    (menu-bar-mode 1) (menu-bar-mode 0))
+(menu-bar-mode nil)
+
+;; 対応する括弧をハイライト
+(show-paren-mode 1)
+
+;; ツールバーを非表示
+(tool-bar-mode 0)
+
+;; tabサイズ
+(setq default-tab-width 4)
+
+(line-number-mode t)	   ;下のバーに行数を表示
+
+;; auto-insert
+(auto-insert-mode)
+(setq auto-insert-directory "~/.emacs.d/insert/") 
+(define-auto-insert "\\.cpp$" "c++-template.cpp")
+
+;; 起動時のサイズ,表示位置,フォントを指定
+(setq initial-frame-alist
+      (append (list
+	       '(width . 67)
+	       '(height . 53)
+	       '(top . 23)
+	       '(left . 0)
+	       ;;'(font . "VL Gothic-11")
+	       )
+	      initial-frame-alist))
+(setq default-frame-alist initial-frame-alist)
