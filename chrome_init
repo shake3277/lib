@@ -1,0 +1,73 @@
+;; flymake
+
+(require 'flymake)
+(defun flymake-cc-init ()
+  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+         (local-file  (file-relative-name
+                       temp-file
+                       (file-name-directory buffer-file-name))))
+    (list "g++" (list "-std=c++11" "-Wall" "-Wextra" "-fsyntax-only" local-file))))
+
+(push '("\\.cpp$" flymake-cc-init) flymake-allowed-file-name-masks)
+
+(add-hook 'c++-mode-hook
+          '(lambda ()
+             (flymake-mode t)))
+
+;; flymake end
+
+;;color
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
+ '(custom-enabled-themes (quote (deeper-blue))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+;;color end
+
+;; スタートアップメッセージを表示させない
+(setq inhibit-startup-message 1)
+
+;; ターミナルで起動したときにメニューを表示しない
+(if (eq window-system 'x)
+    (menu-bar-mode 1) (menu-bar-mode 0))
+(menu-bar-mode nil)
+
+;; 対応する括弧をハイライト
+(show-paren-mode 1)
+
+;; ツールバーを非表示
+(tool-bar-mode 0)
+
+;; tabサイズ
+(setq default-tab-width 5)
+
+(line-number-mode t)	   ;下のバーに行数を表示
+
+;; auto-insert
+(auto-insert-mode)
+(setq auto-insert-directory "~/.emacs.d/insert/") 
+(define-auto-insert "\\.cpp$" "c++-template.cpp")
+
+;; メニューバーを消す
+(menu-bar-mode -1)
+
+;; 行数を表示する
+(global-linum-mode t)
+
+;; カーソルの点滅をやめる
+(blink-cursor-mode 0)
+
+;; カーソル行をハイライトする
+;;(global-hl-line-mode t)
