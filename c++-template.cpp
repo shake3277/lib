@@ -1,14 +1,14 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define F first
-#define S second
+#define fi first
+#define se second
+#define mp make_pair
+#define pb push_back
+#define all(x) x.begin(),x.end()
+#define dbg(x) cout<<#x<<":"<<x<<endl
 typedef long long ll;
-typedef unsigned long long ull;
-typedef pair<ll,ll> pl;
-typedef pair<int,int> pi;
-typedef pair<ll,pl> pp;
-const ll MOD = 1e9+7;
-const ll MAX = 1e18*2;
+typedef pair<ll,ll> P;
+typedef pair<ll,P> PP;
 
 int main(){
   
