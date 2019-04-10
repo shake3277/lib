@@ -3,8 +3,8 @@ using namespace std;
 #define MAX_N 100000
 #define MAX_E 100000
 
-int par[MAX_N]; //親
-int ran[MAX_N]; //木の深さ
+int par[MAX_N]; 
+int ran[MAX_N]; 
 
 void init(int n){
   for(int i=0;i<n;i++){
