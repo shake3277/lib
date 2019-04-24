@@ -1,51 +1,71 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define ll long long
-#define MAX_N (1<<17)
+#define fi first
+#define se second
+#define mp make_pair
+#define pb push_back
+#define all(x) x.begin(),x.end()
+#define dbg(x) cout<<#x<<":"<<x<<endl
+typedef long long ll;
+typedef pair<ll,ll> P;
+typedef pair<ll,P> PP;
 
+template<class T>
 struct BIT{
-  //[1,n]
-  ll bit[MAX_N+1],n;
-  BIT(ll N){
-	fill_n(bit,MAX_N+1,0);
-	n=N;
-  }
+  int n;
+  vector<T> array;//1-indexed
   
+  BIT(int _n):n(_n),array(_n+1,0){}
+
   //sum[1,r]
-  ll sum(ll i){
-	ll s=0;
+  T sum(int i){  
+	T s=0;
 	while(i>0){
-	  s+=bit[i];
-	  i-=i&-1;
+	  s+=array[i];
+	  i-=i&-i;
 	}
 	return s;
   }
-
-  //sum[l,r]
-  ll lrsum(ll l,ll r){
-	return sum(r)-sum(l-1);
+  
+  //sum[i,j]
+  T sum(int i,int j){  
+    T sum_i=sum(i-1);
+    T sum_j=sum(j);
+    return sum_j-sum_i;
   }
   
-  //a_i=x
-  void add(ll i,ll x){
+  void add(int i,T x){
 	while(i<=n){
-	  bit[i]+=x;
+	  array[i]+=x;
 	  i+=i&-i;
 	}
   }
-
 };
 
+//ARC031-C
 int main(){
-  ll n,q;
-  cin>>n>>q;
-  BIT bit(n);
-  cout<<bit.n<<endl;
-  for(int i=0;i<q;i++){
-	ll com,x,y;
-	cin>>com>>x>>y;
-	if(com)cout<<bit.lrsum(x,y)<<endl;
-	else bit.add(x,y);
+  ll n;
+  cin>>n;
+  vector<ll> a(n+1);
+  for(ll i=1;i<=n;i++){
+    ll b;
+    cin>>b;
+    a[b]=i;
   }
+
+  BIT<ll> bit(n);
+  for(ll i=1;i<=n;i++){
+    bit.add(i,1);
+  }
+
+  ll ans=0;
+  for(ll i=1;i<=n;i++){
+    ll b=a[i];
+    bit.add(b,-1);
+    if(b==1||b==n)continue;
+    ans+=min(bit.sum(1,b),bit.sum(b,n));
+  }
+
+  cout<<ans<<endl;
   return 0;
 }
