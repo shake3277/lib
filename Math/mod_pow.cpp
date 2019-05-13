@@ -1,42 +1,42 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define ll long long
-const ll MOD = 1e9+7;
-const ll N = 1e6;
+#define int long long
+struct Comb{
+  const int MOD = 1e9+7;
+  vector<int> fact,infact;
 
-//a^(p-2)=a^(-1) (mod p)
-//(x^n)%mod
-ll mod_pow(ll x,ll n,ll mod){
-  if(n==0)return 1;
-  ll res=mod_pow( x*x%mod , n/2 , mod );
-  if( n & 1 )res = res*x%mod;
-  return res;
-}
-
-ll fact[N];
-ll infact[N];
-
-void make_factorial(void){
-  fact[0] = 1;
-  for( ll i = 1 ; i < N ; i++ ){
-    fact[i] = fact[i-1] * i;
-    fact[i] %= MOD;
+  Comb(int N):
+    fact(N+1),
+    infact(N+1)
+  {
+    N++;
+    fact[0] = 1;
+    for( int i = 1 ; i < N ; i++ ){
+	 fact[i] = fact[i-1] * i;
+	 fact[i] %= MOD;
+    }
+    for( int i = 0 ; i < N ; i++ ){
+	 infact[i] = mod_pow( fact[i] , MOD-2 , MOD );
+    }
   }
-  for( ll i = 0 ; i < N ; i++ ){
-    infact[i] = mod_pow( fact[i] , MOD-2 , MOD );
+
+  int mod_pow(int x,int n,int mod){
+    if(n==0)return 1;
+    int res=mod_pow( x*x%mod , n/2 , mod );
+    if( n & 1 )res = res*x%mod;
+    return res;
   }
-}
 
-ll comb(ll a,ll b){
-  if(a == 0 && b == 0)return 1;
-  if(a < b || a < 0)return 0;
-  ll tmp = infact[a-b]* infact[b] % MOD;
-  return tmp * fact[a] % MOD; 
-}
+  int comb(int a,int b){
+    if(a == 0 && b == 0)return 1;
+    if(a < b || a < 0)return 0;
+    int tmp = infact[a-b]* infact[b] % MOD;
+    return tmp * fact[a] % MOD; 
+  }
 
-ll perm(ll a,ll b){
-  if(a == 0 && b == 0)return 1;
-  if(a < b || a < 0)return 0;
-  return fact[a] * infact[a-b] % MOD;
-}
-
+  int perm(int a,int b){
+    if(a == 0 && b == 0)return 1;
+    if(a < b || a < 0)return 0;
+    return fact[a] * infact[a-b] % MOD;
+  }
+};
