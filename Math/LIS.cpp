@@ -6,18 +6,18 @@ struct LIS{
   int n;
   vector<int> a,dp;
   LIS(){}
-  LIS(int _n,vector<int> _a):n(_n),a(_a),dp(sz,0):{}
+  LIS(int _n,vector<int> _a):n(_n),a(_a),dp(_n,INT_MAX){}
 
   int res(){
     dp[0]=a[0];
     int ans=1;
     for(int i=1;i<n;i++){
       if(dp[ans-1]<a[i])dp[ans++]=a[i];
-      else *lower_bound(dp,dp+ans,a[i])=a[i];
+      else *lower_bound(dp.begin(),dp.begin()+ans,a[i])=a[i];
     }
     return ans;
   }
-}
+};
 
 int main(){
   int n;
